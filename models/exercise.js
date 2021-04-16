@@ -8,32 +8,34 @@ const exerciseSchema = new Schema({
     default: Date.now(),
   },
   exercises: [
-  {
-    name: {
-      type: String,
-      trim: true,
-      required: "Enter Exercise Name"
-    },
-    type: String,
-    trim: true,
-    required: "Enter Exercise Type"
-  },
-  distance : {
-    type: Number
-  },
-  duration : {
-    type: Number,
-    required: "Enter Exercise Duration"
-  },
-  weight : {
-    type: Number
-  },
-  sets : {
-    type: Number
-  },
-  reps : {
-    type: Number
-  },
+    {
+      name: {
+        type: String,
+        trim: true,
+        required: "Enter Exercise Name"
+      },
+      type: {
+        type: String,
+        trim: true,
+        required: "Enter Exercise Type"
+      },
+      distance: {
+        type: Number
+      },
+      duration: {
+        type: Number,
+        required: "Enter Exercise Duration"
+      },
+      weight: {
+        type: Number
+      },
+      sets: {
+        type: Number
+      },
+      reps: {
+        type: Number
+      },
+    }
   ]
 });
 
