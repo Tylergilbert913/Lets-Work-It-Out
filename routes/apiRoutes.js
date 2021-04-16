@@ -1,52 +1,39 @@
-// Import express router
-const router = require("express").Router();
+const db = require("../models");
 
-// Import workout model
-const db = require("../models/exercise");
-
-// GET Request for getting all workouts
-router.get("/api/workouts", (req, res) => {
-	db.find()
-		.then((dbData) => {
-			res.json(dbData);
-		})
-		.catch((err) => {
-			res.json(err);
-		});
-});
-
-// GET request
-router.get("/api/workouts/range", (req, res) => {
-	db.find()
-		.then((dbData) => {
-			res.json(dbData);
-		})
-		.catch((err) => {
-			res.json(err);
-		});
-});
-
-// POST workout
-router.post("/api/workouts", ({ body }, res) => {
-	db.create(body)
-		.then((dbData) => {
-			res.json(dbData);
-		})
-		.catch((err) => {
-			res.json(err);
-		});
-});
-
-// PUT/Update workout
-router.put("/api/workouts/:id", ({ body, params }, res) => {
-	db.findByIdAndUpdate(params.id, { $push: { exercises: body } })
-		.then((dbData) => {
-			res.json(dbData);
-		})
-		.catch((err) => {
-			res.json(err);
-		});
-});
-
-// Export API routes
-module.exports = router;
+module.exports = function(app) {
+    // App.get to pull up info for the workouts page
+    app.get("/api/workouts", (req, res) => {
+        db.Workout.find({}).then(dbWorkout => {
+            res.json(dbWorkout);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+    })
+    // App.get to pull up info for the range page
+    app.get("/api/workouts/range", ({}, res) => {
+      db.Workout.find({}).then((dbWorkout) => {
+        res.json(dbWorkout);
+      }).catch(err => {
+        res.status(400).json(err);
+      });
+    });
+    // App.post to submit new completed workouts
+    app.post("/api/workouts/", (req, res) => {
+        db.Workout.create(req.body).then((dbWorkout) => {
+          res.json(dbWorkout);
+        }).catch(err => {
+            res.status(400).json(err);
+          });
+      });
+      // App.put to update workouts by MongoDB _id value and update the exercsise body
+      app.put("/api/workouts/:id", (req, res) => {
+        db.Workout.findByIdAndUpdate(
+          { _id: req.params.id }, { exercises: req.body }
+        ).then((dbWorkout) => {
+          res.json(dbWorkout);
+        }).catch(err => {
+          res.status(400).json(err);
+        });
+    });
+};
