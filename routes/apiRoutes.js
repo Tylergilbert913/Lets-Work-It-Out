@@ -1,7 +1,7 @@
 const db = require("../models");
 
 module.exports = function(app) {
-    // get pulls data into the workouts page
+    // App.get to pull up info for the workouts page
     app.get("/api/workouts", (req, res) => {
       db.Workout.find({})
           .sort({ date: -1 })
@@ -12,7 +12,7 @@ module.exports = function(app) {
               res.status(400).json(err);
           });
   });
-    // gets and pulls data into the range page
+    // App.get to pull up info for the range page
     app.get("/api/workouts/range", (req, res) => {
       db.Workout.find({}).limit(7)
         .then(dbWorkout => {
@@ -22,7 +22,7 @@ module.exports = function(app) {
           res.status(400).json(err);
         });
     });
-    //post to submit completed workouts
+    // App.post to submit new completed workouts
     app.post("/api/workouts", ({ body }, res) => {
       db.Workout.create(body)
           .then(dbWorkout => {
@@ -32,7 +32,7 @@ module.exports = function(app) {
               res.status(400).json(err);
           });
   });
-      // updates by MongoDB_ID value and update the exercise
+      // App.put to update workouts by MongoDB _id value and update the exercsise body
       app.put("/api/workouts/:id", function (req, res) {
         let id = req.params.id;
         db.Workout.findByIdAndUpdate(
